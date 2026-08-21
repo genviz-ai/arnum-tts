@@ -10,6 +10,12 @@ tags:
   - evaluation
   - numerals
   - speech-synthesis
+  - benchmark
+  - rtl
+  - arabic-nlp
+  - reproducible
+  - arabic-indic-numerals
+  - normalization
 pretty_name: ArNum-TTS
 size_categories:
   - n<1K
@@ -218,3 +224,33 @@ python test_arnum.py
 # re-derive every score from the stored transcripts, without re-synthesising
 python rescore.py
 ```
+
+<!-- series-block -->
+## Does Arabic Survive the Pipeline?
+
+This is one of three reproducible benchmarks, one per stage of a real production pipeline.
+Each measures an Arabic failure that looks correct to anyone who does not read Arabic — which
+is exactly why it ships.
+
+- [ArNum-TTS](https://huggingface.co/datasets/syamjithnk/arnum-tts) — do numbers survive speech synthesis? **← you are here**
+- [ArShape](https://huggingface.co/datasets/syamjithnk/arshape) — does the standard reshaping recipe survive rendering?
+- [ArPDF](https://huggingface.co/datasets/syamjithnk/arpdf) — does Arabic survive a PDF round trip?
+
+All three are CC BY 4.0 and ship the scorer, the raw per-item results, and an explicit statement
+of what the measurement does *not* establish. Code is MIT (see `LICENSE`).
+<!-- series-block -->
+
+<!-- citation-block -->
+## Citation
+
+```bibtex
+@misc{syamjithnk_arnum_2026,
+  author       = {Syamjith NK},
+  title        = {ArNum-TTS: numeral handling in Arabic speech synthesis},
+  year         = {2026},
+  publisher    = {Hugging Face},
+  howpublished = {\url{https://huggingface.co/datasets/syamjithnk/arnum-tts}},
+  note         = {Data CC BY 4.0; code MIT}
+}
+```
+<!-- citation-block -->
