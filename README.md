@@ -225,6 +225,23 @@ python test_arnum.py
 python rescore.py
 ```
 
+
+> **Correction, 21 August 2026 (second pass).** Four further scorer gaps were found while
+> building the normaliser, and one moved a published figure. `بالمئة` (per cent) was being read
+> as the number 100 and merged into the preceding value, so a correctly spoken
+> `سبعة وأربعون بالمئة` (47%) parsed as **147**; spoken decimals (`ثلاثة نقطة خمسة` = 3.5) were
+> not parsed at all; `اثنا عشر` written as two words read as 10; and `مليونان` (two million) was
+> unknown.
+>
+> **Apple moves from 12/15 to 13/15 on BOTH digit forms — 80% → 87%.** It had said
+> `ثلاثة نقطة خمسة بالمئة` correctly, twice, and been marked wrong. No other cell moved; fish and
+> ArTST are unchanged. Every number above is recomputed from the stored transcripts with
+> `rescore.py`; no audio was re-synthesised.
+>
+> As with the first pass, every gap found so far has **understated** the engines. The harness is
+> strict, not generous. The headline contrast widens rather than narrows: Arabic-Indic digits
+> recover 1/15 on one engine while another handles both digit forms at 13/15.
+
 <!-- series-block -->
 ## Does Arabic Survive the Pipeline?
 
