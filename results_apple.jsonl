@@ -7,8 +7,8 @@
 {"id": "pct_47", "category": "percentage", "form": "western", "text": "ارتفعت نسبة البلاغات إلى 47 بالمئة خلال الربع الأول.", "expect": "47", "heard": "ارتفعت نسبة البلاغات إلى 47% خلال الربع الأول", "recovered": true}
 {"id": "pct_47", "category": "percentage", "form": "arabic_indic", "text": "ارتفعت نسبة البلاغات إلى ٤٧ بالمئة خلال الربع الأول.", "expect": "47", "heard": "ارتفعت نسبة البلاغات إلى 47% خلال الربع الأول", "recovered": true}
 {"id": "pct_47", "category": "percentage", "form": "spelled", "text": "ارتفعت نسبة البلاغات إلى سبعة وأربعين بالمئة خلال الربع الأول.", "expect": "47", "heard": "ارتفعت نسبة البلاغات إلى 7.40% خلال الربع الأول", "recovered": false}
-{"id": "pct_3_5", "category": "decimal", "form": "western", "text": "بلغ معدل النمو 3.5 بالمئة هذا العام.", "expect": "3.5", "heard": "بلغا معدلا نمو ثلاثة نقطة خمسة بالمئة هذا العام", "recovered": false}
-{"id": "pct_3_5", "category": "decimal", "form": "arabic_indic", "text": "بلغ معدل النمو ٣.٥ بالمئة هذا العام.", "expect": "3.5", "heard": "بلغا معدلا نمو ثلاثة نقطة خمسة بالمئة هذا العام", "recovered": false}
+{"id": "pct_3_5", "category": "decimal", "form": "western", "text": "بلغ معدل النمو 3.5 بالمئة هذا العام.", "expect": "3.5", "heard": "بلغا معدلا نمو ثلاثة نقطة خمسة بالمئة هذا العام", "recovered": true}
+{"id": "pct_3_5", "category": "decimal", "form": "arabic_indic", "text": "بلغ معدل النمو ٣.٥ بالمئة هذا العام.", "expect": "3.5", "heard": "بلغا معدلا نمو ثلاثة نقطة خمسة بالمئة هذا العام", "recovered": true}
 {"id": "pct_3_5", "category": "decimal", "form": "spelled", "text": "بلغ معدل النمو ثلاثة وخمسة من عشرة بالمئة هذا العام.", "expect": "3.5", "heard": "بلغا معدلا نمو ثلاثة وخمسة من عشرة بالمئة هذا العام", "recovered": true}
 {"id": "count_123", "category": "count", "form": "western", "text": "تم إغلاق 123 قضية خلال ثلاثين يوماً فقط.", "expect": "123", "heard": "تم إغلاق مئة وثلاث وعشرين قضية خلال ثلاثين يوما فقط", "recovered": true}
 {"id": "count_123", "category": "count", "form": "arabic_indic", "text": "تم إغلاق ١٢٣ قضية خلال ثلاثين يوماً فقط.", "expect": "123", "heard": "تم إغلاق مئة وثلاث وعشرين قضية خلال ثلاثين يوما فقط", "recovered": true}
