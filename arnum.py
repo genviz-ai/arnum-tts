@@ -29,7 +29,7 @@ UNITS = {
     "احدى": 1, "إحدى": 1,
 }
 TEENS = {
-    "احدعشر": 11, "اثناعشر": 12, "ثلاثةعشر": 13, "اربعةعشر": 14, "خمسةعشر": 15,
+    "احدعشر": 11, "اثنا": 2, "اثني": 2, "اثناعشر": 12, "ثلاثةعشر": 13, "اربعةعشر": 14, "خمسةعشر": 15,
     "ستةعشر": 16, "سبعةعشر": 17, "ثمانيةعشر": 18, "تسعةعشر": 19,
 }
 TENS = {
@@ -66,9 +66,18 @@ ORDINALS = {
 FRACTIONS = {"نصف": 30, "ربع": 15, "ثلث": 20}
 SCALES = {"الف": 1000, "ألف": 1000, "الفا": 1000, "ألفا": 1000, "الفان": 2000,
           "ألفان": 2000, "الفين": 2000, "ألفين": 2000, "آلاف": 1000,
-          "مليون": 1_000_000, "ملايين": 1_000_000}
+          "مليون": 1_000_000, "مليونان": 2_000_000, "مليونين": 2_000_000, "ملايين": 1_000_000}
 
 _STRIP = re.compile(r"^(ال|و|بال|لل)+")
+
+# "بالمئة" / "في المئة" mean PER CENT, not one hundred. The prefix stripper made
+# them "مئة" = 100 and ADDED it, so a correctly spoken "سبعة وأربعون بالمئة" (47%)
+# parsed as 147 and scored LOST. A percent marker carries no value of its own.
+_PERCENT_WORDS = {"بالمئة", "بالمائة", "المئة", "المائة", "بالمأة", "بالمئه", "بالمة"}
+
+# "ثلاثة نقطة خمسة" is 3.5 read aloud. Without this, a decimal an engine said
+# correctly came back as two unrelated integers.
+_DECIMAL_WORDS = {"نقطة", "فاصلة", "فاصله", "نقطه"}
 
 
 ALL_DICTS = (TEENS, HUNDREDS, TENS, SCALES, ORDINALS, FRACTIONS, UNITS)
@@ -150,11 +159,24 @@ def words_to_values(text: str) -> set[int]:
     # A clock reading behaves differently from every other number: its parts are
     # separate values, not addends. Gate that on the sentence actually saying "hour".
     clock = "ساعة" in text
+    # Spoken decimals: "<a> نقطة <b>" -> a.b, added as a string-comparable value.
+    _rt = text.split()
+    for _i, _t in enumerate(_rt):
+        if _clean(_t) in _DECIMAL_WORDS and 0 < _i < len(_rt) - 1:
+            for _a in words_to_values(_rt[_i - 1]):
+                for _b in words_to_values(_rt[_i + 1]):
+                    out.add(f"{_a}.{_b}")  # type: ignore[arg-type]
+
     toks = _join_ordinals([_clean(t) for t in text.split()])
     cur = 0            # value being accumulated in the current group
     total = 0          # groups already closed by a scale word
     seen = False
     for raw in toks:
+        if _clean(raw) in _PERCENT_WORDS:
+            if seen and (cur or total):
+                out.add(total + cur)
+            cur = total = 0; seen = False
+            continue
         t = _norm(raw)
         if t in TEENS:
             cur += TEENS[t]; seen = True
