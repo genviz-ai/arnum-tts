@@ -32,6 +32,13 @@ ap.add_argument("--engines", nargs="*", default=["fish", "apple", "artst"])
 ap.add_argument("--file", action="append", default=[],
                 help="any other results-shaped jsonl, e.g. the whisper-medium control")
 ap.add_argument("--write", action="store_true")
+# The digit-form guard exists because a spelled-form fix must never move digit
+# scores. On 2026-08-21 a fix that legitimately does was needed: the parser could
+# not read "ثلاثة نقطة خمسة" (3.5 spoken aloud), so a decimal an engine said
+# CORRECTLY scored LOST in the digit forms. Overriding is deliberate, named and
+# recorded here rather than achieved by deleting the guard.
+ap.add_argument("--allow-digit-move", metavar="REASON", default="",
+                help="override the digit-form guard; the reason is printed and logged")
 a = ap.parse_args()
 
 failed_guard = []
@@ -65,9 +72,12 @@ for target in [HERE / f"results_{e}.jsonl" for e in a.engines] + [Path(f) for f 
               f" {r['form']:13} exp={r['expect']:9} | {r['heard'][:80]}")
     pending.append((path, rows))
 
-if failed_guard:
+if failed_guard and not a.allow_digit_move:
     raise SystemExit(f"\nSTOP: a digit form moved ({', '.join(failed_guard)}). "
-                     "Nothing written - a spelled-form fix must not touch these.")
+                     "Nothing written - a spelled-form fix must not touch these.\n"
+                     "If the move is intended, re-run with --allow-digit-move 'reason'.")
+if failed_guard:
+    print(f"\n  GUARD OVERRIDDEN for {', '.join(failed_guard)}\n  reason: {a.allow_digit_move}")
 
 if a.write:
     for path, rows in pending:
